@@ -291,6 +291,29 @@ function loadStockStatus() {
   });
 }
 
+const tabButtons = document.querySelectorAll(".tab-btn");
+const sections = document.querySelectorAll("section");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Remove active class from all buttons
+    tabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    // Hide all sections
+    sections.forEach(sec => sec.style.display = "none");
+
+    // Show target section
+    const target = btn.getAttribute("data-target");
+    document.getElementById(target).style.display = "block";
+  });
+});
+
+// On page load, show only purchaseSection by default
+sections.forEach(sec => sec.style.display = "none");
+document.getElementById("purchaseSection").style.display = "block";
+
+
 // Load both purchases and sales on page load or refresh
 async function loadData() {
   await loadPurchases();
