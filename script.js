@@ -121,13 +121,13 @@ async function loadPurchases() {
     purchasesData.forEach(data => {
       const tr = document.createElement("tr");
 
-      tr.innerHTML = `
-        <td>${data.product}</td>
-        <td>${data.qty}</td>
-        <td>₹${data.rate}</td>
-        <td>${new Date(data.date).toLocaleString()}</td>
-        <td><button class="delete-btn" onclick="deletePurchase('${data.id}')">Delete</button></td>
-      `;
+tr.innerHTML = `
+  <td data-label="Product">${data.product}</td>
+  <td data-label="Quantity">${data.qty}</td>
+  <td data-label="Rate (₹)">₹${data.rate}</td>
+  <td data-label="Date / Time">${new Date(data.date).toLocaleString()}</td>
+  <td data-label="Action"><button class="delete-btn" onclick="deletePurchase('${data.id}')">Delete</button></td>
+`;
 
       purchaseList.appendChild(tr);
     });
@@ -172,13 +172,13 @@ async function loadSales() {
     salesData.forEach(data => {
       const tr = document.createElement("tr");
 
-      tr.innerHTML = `
-        <td>${data.product}</td>
-        <td>${data.qty}</td>
-        <td>₹${data.salePrice}</td>
-        <td>${new Date(data.date).toLocaleString()}</td>
-        <td><button class="delete-btn" onclick="deleteSale('${data.id}')">Delete</button></td>
-      `;
+tr.innerHTML = `
+  <td data-label="Product">${data.product}</td>
+  <td data-label="Quantity">${data.qty}</td>
+  <td data-label="Sale Price (₹)">₹${data.salePrice}</td>
+  <td data-label="Date / Time">${new Date(data.date).toLocaleString()}</td>
+  <td data-label="Action"><button class="delete-btn" onclick="deleteSale('${data.id}')">Delete</button></td>
+`;
 
       salesList.appendChild(tr);
     });
@@ -282,11 +282,11 @@ function loadStockStatus() {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${productName}</td>
-      <td>${purchasedQty}</td>
-      <td>${soldQty}</td>
-      <td>${pendingQty}</td>
-    `;
+  <td data-label="Product">${productName}</td>
+  <td data-label="Purchased Quantity">${purchasedQty}</td>
+  <td data-label="Sold Quantity">${soldQty}</td>
+  <td data-label="Pending Quantity">${pendingQty}</td>
+`;
     stockList.appendChild(tr);
   });
 }

@@ -214,6 +214,11 @@ thead {
   }
 }
 
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Delete button style (for purchase delete) */
 button.delete-btn {
   background-color: #e53935;
