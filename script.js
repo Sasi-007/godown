@@ -101,9 +101,14 @@ deletePurchasesBtn.addEventListener('click', deleteAllPurchases);
 deleteSalesBtn.addEventListener('click', deleteAllSales);
 
 // Load purchases and display them sorted by newest date first
+// Load purchases and render cards
 async function loadPurchases() {
   purchasesData = [];
-  purchaseList.innerHTML = "";
+
+  const purchaseCardList = document.getElementById("purchaseCardList");
+  if (!purchaseCardList) return;
+
+  purchaseCardList.innerHTML = "";
 
   try {
     const snapshot = await getDocs(collection(db, "purchases"));
@@ -115,22 +120,8 @@ async function loadPurchases() {
       });
     });
 
-    // Sort by date (latest first)
     purchasesData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    purchasesData.forEach(data => {
-      const tr = document.createElement("tr");
-
-tr.innerHTML = `
-  <td data-label="Product">${data.product}</td>
-  <td data-label="Quantity">${data.qty}</td>
-  <td data-label="Rate (₹)">₹${data.rate}</td>
-  <td data-label="Date / Time">${new Date(data.date).toLocaleString()}</td>
-  <td data-label="Action"><button class="delete-btn" onclick="deletePurchase('${data.id}')">Delete</button></td>
-`;
-
-      purchaseList.appendChild(tr);
-    });
+    renderPurchaseCards(purchasesData);
 
     populateSaleItems();
     loadStockStatus();
@@ -138,6 +129,33 @@ tr.innerHTML = `
     console.error("Error loading purchases:", error);
   }
 }
+
+// Render purchase data as cards
+function renderPurchaseCards(data) {
+  const purchaseCardList = document.getElementById("purchaseCardList");
+  purchaseCardList.innerHTML = "";
+
+  data.forEach(purchase => {
+    const card = document.createElement("div");
+    card.className = "purchase-card";
+    card.setAttribute("data-name", purchase.product.toLowerCase());
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span>${purchase.product}</span>
+        <span>${new Date(purchase.date).toLocaleString()}</span>
+      </div>
+      <div class="card-body">
+        <p>Quantity: ${purchase.qty}</p>
+        <p>Rate: ₹${purchase.rate}</p>
+      </div>
+      <button class="delete-btn" onclick="deletePurchase('${purchase.id}')">Delete</button>
+    `;
+
+    purchaseCardList.appendChild(card);
+  });
+}
+
 
 // Delete a purchase
 window.deletePurchase = async (id) => {
@@ -308,6 +326,16 @@ tabButtons.forEach(btn => {
     document.getElementById(target).style.display = "block";
   });
 });
+
+// Filter purchases with search bar
+document.getElementById('purchaseSearch').addEventListener('input', function () {
+  const term = this.value.toLowerCase();
+  const filtered = purchasesData.filter(p =>
+    p.product.toLowerCase().includes(term)
+  );
+  renderPurchaseCards(filtered);
+});
+
 
 // On page load, show only purchaseSection by default
 sections.forEach(sec => sec.style.display = "none");

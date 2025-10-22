@@ -32,21 +32,10 @@
       </form>
 
       <h2>Saved Purchases</h2>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Rate (₹)</th>
-              <th>Date / Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="purchaseList">
-            <!-- Purchases will be added here dynamically -->
-          </tbody>
-        </table>
+      <input type="text" id="purchaseSearch" class="search-bar" placeholder="Search purchases..." />
+
+      <div id="purchaseCardList">
+        <!-- Purchases will be rendered here as cards dynamically -->
       </div>
     </section>
 
