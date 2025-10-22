@@ -1,3 +1,8 @@
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { width: 100%; }
+}
+
 body {
   font-family: Arial;
   margin: 40px;
