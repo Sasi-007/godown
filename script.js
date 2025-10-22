@@ -170,16 +170,17 @@ async function loadSales() {
     salesData.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     salesData.forEach(data => {
-      const li = document.createElement("li");
-      li.textContent = `${data.product} - Qty: ${data.qty} at ₹${data.salePrice} each`;
+      const tr = document.createElement("tr");
 
-      const delBtn = document.createElement("button");
-      delBtn.textContent = "Delete";
-      delBtn.style.marginLeft = "10px";
-      delBtn.onclick = () => deleteSale(data.id);
+      tr.innerHTML = `
+        <td>${data.product}</td>
+        <td>${data.qty}</td>
+        <td>₹${data.salePrice}</td>
+        <td>${new Date(data.date).toLocaleString()}</td>
+        <td><button class="delete-btn" onclick="deleteSale('${data.id}')">Delete</button></td>
+      `;
 
-      li.appendChild(delBtn);
-      salesList.appendChild(li);
+      salesList.appendChild(tr);
     });
 
     loadStockStatus();
