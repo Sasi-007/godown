@@ -23,7 +23,21 @@
     </form>
 
     <h2>Saved Purchases</h2>
-    <ul id="purchaseList"></ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Date / Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="purchaseList">
+        <!-- Purchases will be added here dynamically -->
+      </tbody>
+    </table>
   </div>
 
   <script type="module" src="script.js"></script>

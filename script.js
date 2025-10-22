@@ -1,5 +1,11 @@
 import { db } from "./firebase.js";
-import { addDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // Get DOM elements
 const product = document.querySelector("#product");
@@ -37,21 +43,53 @@ saveBtn.onclick = async () => {
   }
 };
 
-// Load purchases from Firebase
+// Load purchases and display them sorted by newest date first
 async function loadData() {
   purchaseList.innerHTML = "";
+
   try {
     const snapshot = await getDocs(collection(db, "purchases"));
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const li = document.createElement("li");
-      li.textContent = `${data.product} – ${data.qty} pcs @ ₹${data.rate}`;
-      purchaseList.appendChild(li);
+    const purchases = [];
+
+    snapshot.forEach(docSnap => {
+      purchases.push({
+        id: docSnap.id,
+        ...docSnap.data()
+      });
+    });
+
+    // Sort by date (latest first)
+    purchases.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    purchases.forEach(data => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td>${data.product}</td>
+        <td>${data.qty}</td>
+        <td>₹${data.rate}</td>
+        <td>${new Date(data.date).toLocaleString()}</td>
+        <td><button class="delete-btn" onclick="deletePurchase('${data.id}')">Delete</button></td>
+      `;
+
+      purchaseList.appendChild(tr);
     });
   } catch (error) {
     console.error("Error loading purchases:", error);
   }
 }
+
+// Delete a purchase
+window.deletePurchase = async (id) => {
+  if (confirm("Are you sure you want to delete this purchase?")) {
+    try {
+      await deleteDoc(doc(db, "purchases", id));
+      loadData();
+    } catch (error) {
+      console.error("Error deleting purchase:", error);
+    }
+  }
+};
 
 // Initial load
 loadData();
