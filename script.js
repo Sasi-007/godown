@@ -4,7 +4,8 @@ import {
   collection,
   getDocs,
   deleteDoc,
-  doc
+  doc,
+  query
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
 // Purchase DOM elements
@@ -55,6 +56,49 @@ saveBtn.onclick = async () => {
     alert("Failed to save. Check the console for errors.");
   }
 };
+
+async function deleteAllPurchases() {
+  if (!confirm("Are you sure you want to delete ALL purchases? This action cannot be undone.")) return;
+
+  try {
+    const q = query(collection(db, "purchases"));
+    const snapshot = await getDocs(q);
+
+    const deletePromises = snapshot.docs.map(d => deleteDoc(doc(db, "purchases", d.id)));
+    await Promise.all(deletePromises);
+
+    alert("All purchases deleted.");
+    await loadData();
+  } catch (error) {
+    console.error("Error deleting all purchases:", error);
+    alert("Failed to delete purchases. Check console.");
+  }
+}
+
+// Delete all sales
+async function deleteAllSales() {
+  if (!confirm("Are you sure you want to delete ALL sales? This action cannot be undone.")) return;
+
+  try {
+    const q = query(collection(db, "sales"));
+    const snapshot = await getDocs(q);
+
+    const deletePromises = snapshot.docs.map(d => deleteDoc(doc(db, "sales", d.id)));
+    await Promise.all(deletePromises);
+
+    alert("All sales deleted.");
+    await loadData();
+  } catch (error) {
+    console.error("Error deleting all sales:", error);
+    alert("Failed to delete sales. Check console.");
+  }
+}
+
+const deletePurchasesBtn = document.getElementById('deletePurchasesBtn');
+const deleteSalesBtn = document.getElementById('deleteSalesBtn');
+
+deletePurchasesBtn.addEventListener('click', deleteAllPurchases);
+deleteSalesBtn.addEventListener('click', deleteAllSales);
 
 // Load purchases and display them sorted by newest date first
 async function loadPurchases() {
