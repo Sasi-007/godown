@@ -46,37 +46,43 @@
 
 .purchase-card .card-actions {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  align-items: center;
 }
 
 .purchase-card button {
   border: none;
-  padding: 5px 10px;
-  font-size: 0.8rem;
-  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s ease;
 }
 
 .purchase-card .edit-btn {
   background-color: #0d6efd;
-  color: white;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
 }
 
 .purchase-card .edit-btn:hover {
   background-color: #0b5ed7;
+  transform: translateY(-1px);
 }
 
 .purchase-card .delete-btn {
   background-color: #e53935;
-  color: white;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(229, 57, 53, 0.2);
 }
 
 .purchase-card .delete-btn:hover {
-  background-color: #b71c1c;
+  background-color: #c62828;
+  transform: translateY(-1px);
 }
 
 /* Inline editing state */
