@@ -5,14 +5,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Simple Stock Manager</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/tables.css">
+  <link rel="stylesheet" href="css/purchase-cards.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-
   <div class="container">
     <h1><i class="fas fa-boxes"></i> Simple Stock Manager</h1>
+
     <nav class="tab-nav">
       <button class="tab-btn active" data-target="purchaseSection">Purchases</button>
       <button class="tab-btn" data-target="salesSection">Sales</button>
@@ -21,21 +27,24 @@
 
     <!-- Purchase Section -->
     <section id="purchaseSection">
-      <h2>Add Purchase</h2>
-      <form id="purchaseForm">
-        <input type="text" id="product" placeholder="Product Name" required />
-        <input type="number" id="qty" placeholder="Quantity" required min="1" />
-        <input type="number" id="rate" placeholder="Rate per unit (₹)" required min="0" step="0.01" />
-        <div class="form-actions">
-          <button type="button" id="saveBtn">Save Purchase</button>
+      <div class="card-block">
+        <h2>Add Purchase</h2>
+        <form id="purchaseForm" class="purchase-form">
+          <input type="text" id="product" placeholder="Product Name" required />
+          <input type="number" id="qty" placeholder="Quantity" required min="1" />
+          <input type="number" id="rate" placeholder="Rate per unit (₹)" required min="0" step="0.01" />
+          <div class="form-actions">
+            <button type="button" id="saveBtn">Save Purchase</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-block">
+        <h2>Saved Purchases</h2>
+        <input type="text" id="purchaseSearch" class="search-bar" placeholder="Search purchases..." />
+        <div id="purchaseCardList" class="purchase-list">
+          <!-- Purchases will render here -->
         </div>
-      </form>
-
-      <h2>Saved Purchases</h2>
-      <input type="text" id="purchaseSearch" class="search-bar" placeholder="Search purchases..." />
-
-      <div id="purchaseCardList">
-        <!-- Purchases will be rendered here as cards dynamically -->
       </div>
     </section>
 
@@ -43,63 +52,62 @@
 
     <!-- Sales Section -->
     <section id="salesSection">
-      <h2>Add Sale</h2>
-      <form id="saleForm">
-        <select id="saleItem" required>
-          <!-- Products loaded dynamically -->
-        </select>
-        <input type="number" id="saleQuantity" placeholder="Quantity" required min="1" />
-        <input type="number" id="salePrice" placeholder="Sale Price per unit (₹)" required min="0" step="0.01" />
-        <div class="form-actions">
-          <button type="submit">Save Sale</button>
-        </div>
-      </form>
+      <div class="card-block">
+        <h2>Add Sale</h2>
+        <form id="saleForm">
+          <select id="saleItem" required></select>
+          <input type="number" id="saleQuantity" placeholder="Quantity" required min="1" />
+          <input type="number" id="salePrice" placeholder="Sale Price per unit (₹)" required min="0" step="0.01" />
+          <div class="form-actions">
+            <button type="submit">Save Sale</button>
+          </div>
+        </form>
+      </div>
 
-      <h2>Sales History</h2>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Sale Price (₹)</th>
-              <th>Date / Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="salesList">
-            <!-- Sales will be added here dynamically -->
-          </tbody>
-        </table>
+      <div class="card-block">
+        <h2>Sales History</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Sale Price (₹)</th>
+                <th>Date / Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="salesList"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <hr />
 
-    <!-- Stock Status Section -->
+    <!-- Stock Section -->
     <section id="stockSection">
-      <h2>Current Stock Status</h2>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Purchased Quantity</th>
-              <th>Sold Quantity</th>
-              <th>Pending Quantity</th>
-            </tr>
-          </thead>
-          <tbody id="stockList">
-            <!-- Stock info added dynamically -->
-          </tbody>
-        </table>
+      <div class="card-block">
+        <h2>Current Stock Status</h2>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Purchased Quantity</th>
+                <th>Sold Quantity</th>
+                <th>Pending Quantity</th>
+              </tr>
+            </thead>
+            <tbody id="stockList"></tbody>
+          </table>
+        </div>
+
+        <div class="form-actions mt-3">
+          <button id="deletePurchasesBtn" class="delete-all-btn">Delete All Purchases</button>
+          <button id="deleteSalesBtn" class="delete-all-btn">Delete All Sales</button>
+        </div>
       </div>
-      <button id="deletePurchasesBtn" class="delete-all-btn">
-        Delete All Purchases
-      </button>
-      <button id="deleteSalesBtn" class="delete-all-btn">
-        Delete All Sales
-      </button>
     </section>
   </div>
 

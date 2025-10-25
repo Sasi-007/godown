@@ -1,0 +1,30 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+h1 i {
+  margin-right: 10px;
+  color: #1976d2;
+}
+
+h2 {
+  margin-top: 40px;
+  font-size: 1.5rem;
+  color: #333;
+}

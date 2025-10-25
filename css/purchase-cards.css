@@ -1,0 +1,113 @@
+/* Purchase Card List View */
+#purchaseCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.purchase-card {
+  background: #fff;
+  border-left: 4px solid #1976d2;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 15px 18px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.purchase-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.purchase-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.purchase-card .card-date {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.purchase-card .product-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #222;
+}
+
+.purchase-card .card-body p {
+  margin: 4px 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.purchase-card .card-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.purchase-card button {
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.purchase-card .edit-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.purchase-card .edit-btn:hover {
+  background-color: #0b5ed7;
+}
+
+.purchase-card .delete-btn {
+  background-color: #e53935;
+  color: white;
+}
+
+.purchase-card .delete-btn:hover {
+  background-color: #b71c1c;
+}
+
+/* Inline editing state */
+.purchase-card.editing {
+  background-color: #f7fbff;
+  border-left-color: #0d6efd;
+}
+
+.purchase-card input.inline-edit {
+  width: 80px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-left: 6px;
+}
+
+.purchase-card .save-edit-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.purchase-card .save-edit-btn:hover {
+  background-color: #218838;
+}
+
+.purchase-card .cancel-edit-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.purchase-card .cancel-edit-btn:hover {
+  background-color: #5a6268;
+}

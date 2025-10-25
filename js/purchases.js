@@ -1,5 +1,5 @@
 import { db } from "./firebase.js";
-import { addDoc, collection, getDocs, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { addDoc, collection, getDocs, deleteDoc, doc, query, updateDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import { loadData } from "./script.js";
 import { populateSaleItems, loadStockStatus } from "./stock.js";
 
@@ -59,18 +59,64 @@ export async function loadPurchases() {
 function renderPurchaseCards(data) {
   const list = document.getElementById("purchaseCardList");
   list.innerHTML = "";
+
   data.forEach(p => {
     const card = document.createElement("div");
     card.className = "purchase-card";
-    card.setAttribute("data-name", p.product.toLowerCase());
     card.innerHTML = `
-      <div class="card-header"><span>${p.product}</span><span>${new Date(p.date).toLocaleString()}</span></div>
-      <div class="card-body"><p>Quantity: ${p.qty}</p><p>Rate: ₹${p.rate}</p></div>
-      <button class="delete-btn" data-id="${p.id}">Delete</button>`;
+      <div class="card-header">
+        <span class="product-name">${p.product}</span>
+        <span class="purchase-date">${new Date(p.date).toLocaleDateString()}</span>
+      </div>
+      <div class="card-body">
+        <p>Quantity: <span class="qty">${p.qty}</span></p>
+        <p>Rate: ₹<span class="rate">${p.rate}</span></p>
+      </div>
+      <div class="card-actions">
+        <button class="edit-btn" data-id="${p.id}">Edit</button>
+        <button class="delete-btn" data-id="${p.id}">Delete</button>
+      </div>
+    `;
     list.appendChild(card);
   });
-  list.querySelectorAll(".delete-btn").forEach(btn => btn.addEventListener("click", e => deletePurchase(e.target.dataset.id)));
+
+  list.querySelectorAll(".delete-btn").forEach(btn =>
+    btn.addEventListener("click", e => deletePurchase(e.target.dataset.id))
+  );
+
+  list.querySelectorAll(".edit-btn").forEach(btn =>
+    btn.addEventListener("click", e => editPurchase(e.target.dataset.id))
+  );
 }
+
+async function editPurchase(id) {
+  const item = purchasesData.find(p => p.id === id);
+  if (!item) return;
+
+  const newQty = prompt("Enter new quantity:", item.qty);
+  const newRate = prompt("Enter new rate:", item.rate);
+
+  if (newQty === null || newRate === null) return;
+
+  const qtyVal = parseInt(newQty, 10);
+  const rateVal = parseFloat(newRate);
+
+  if (isNaN(qtyVal) || isNaN(rateVal)) {
+    alert("Invalid values");
+    return;
+  }
+
+  try {
+    const ref = doc(db, "purchases", id);
+    await updateDoc(ref, { qty: qtyVal, rate: rateVal });
+    alert("Purchase updated");
+    await loadData();
+  } catch (error) {
+    console.error("Error updating purchase:", error);
+    alert("Failed to update purchase");
+  }
+}
+
 
 async function deletePurchase(id) {
   if (!confirm("Delete this purchase?")) return;
